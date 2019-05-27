@@ -124,7 +124,7 @@ class Thread:
             recipient, log_url, log_count, discord.Color.green()
         )
 
-        topic = f"User ID: {recipient.id}"
+        topic = f"ID de usuario:: {recipient.id}"
         if creator:
             mention = None
         else:
@@ -265,7 +265,7 @@ class Thread:
             user = f"`{self.id}`"
 
         if self.id == closer.id:
-            _closer = "the Recipient"
+            _closer = "el iniciador de la conversación"
         else:
             _closer = f"{closer} ({closer.id})"
 
@@ -524,7 +524,7 @@ class Thread:
             ):
                 embed.set_image(url=att[0])
                 if att[1]:
-                    embed.add_field(name="Image", value=f"[{att[1]}]({att[0]})")
+                    embed.add_field(name="Imagen", value=f"[{att[1]}]({att[0]})")
                 embedded_image = True
             elif att[1] is not None:
                 if note:
@@ -558,18 +558,18 @@ class Thread:
             embed.color = self.bot.mod_color  # pylint: disable=E0237
             # Anonymous reply sent in thread channel
             if anonymous and isinstance(destination, discord.TextChannel):
-                embed.set_footer(text="Anonymous Reply")
+                embed.set_footer(text="Respuesta anónima")
             # Normal messages
             elif not anonymous:
                 tag = self.bot.config.get("mod_tag", str(message.author.top_role))
                 embed.set_footer(text=tag)  # Normal messages
             else:
-                embed.set_footer(text=self.bot.config.get("anon_tag", "Response"))
+                embed.set_footer(text=self.bot.config.get("anon_tag", "Respuesta"))
         elif note:
             # noinspection PyUnresolvedReferences,PyDunderSlots
             embed.color = discord.Color.blurple()  # pylint: disable=E0237
         else:
-            embed.set_footer(text=f"Recipient")
+            embed.set_footer(text=f"Iniciador de la conversación.")
             # noinspection PyUnresolvedReferences,PyDunderSlots
             embed.color = self.bot.recipient_color  # pylint: disable=E0237
 
@@ -656,7 +656,7 @@ class ThreadManager:
                 thread = None
         except KeyError:
             channel = discord.utils.get(
-                self.bot.modmail_guild.text_channels, topic=f"User ID: {recipient_id}"
+                self.bot.modmail_guild.text_channels, topic=f"ID de usuario: {recipient_id}"
             )
             if channel:
                 thread = Thread(self, recipient, channel)
@@ -775,9 +775,9 @@ class ThreadManager:
         # if not role_names:
         #     embed.add_field(name='Mention', value=user.mention)
         # embed.add_field(name='Registered', value=created + days(created))
-        embed.description += f" was created {days(created)}"
+        embed.description += f" fué creado {days(created)}"
 
-        footer = "User ID: " + str(user.id)
+        footer = "ID de usuario: " + str(user.id)
         embed.set_footer(text=footer)
         embed.set_author(name=str(user), icon_url=user.avatar_url, url=log_url)
         # embed.set_thumbnail(url=avi)
@@ -785,21 +785,21 @@ class ThreadManager:
         if member:
             joined = str((time - member.joined_at).days)
             # embed.add_field(name='Joined', value=joined + days(joined))
-            embed.description += f", joined {days(joined)}"
+            embed.description += f", se unió {days(joined)}"
 
             if member.nick:
-                embed.add_field(name="Nickname", value=member.nick, inline=True)
+                embed.add_field(name="Apodo", value=member.nick, inline=True)
             if role_names:
                 embed.add_field(name="Roles", value=role_names, inline=True)
         else:
             embed.set_footer(
-                text=f"{footer} | Note: this member " "is not part of this server."
+                text=f"{footer} | Nota: Este miembro " "este miembro no es parte del servidor."
             )
 
         if log_count:
             # embed.add_field(name='Past logs', value=f'{log_count}')
-            thread = "thread" if log_count == 1 else "threads"
-            embed.description += f" with **{log_count}** past {thread}."
+            thread = "ticket" if log_count == 1 else "tickets"
+            embed.description += f" con **{log_count}** anteriores {thread}."
         else:
             embed.description += "."
 
