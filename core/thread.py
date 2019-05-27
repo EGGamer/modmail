@@ -124,7 +124,7 @@ class Thread:
             recipient, log_url, log_count, discord.Color.green()
         )
 
-        topic = f"ID de usuario:: {recipient.id}"
+        topic = f"User ID: {recipient.id}"
         if creator:
             mention = None
         else:
@@ -265,7 +265,7 @@ class Thread:
             user = f"`{self.id}`"
 
         if self.id == closer.id:
-            _closer = "el iniciador de la conversación"
+            _closer = "the Recipient"
         else:
             _closer = f"{closer} ({closer.id})"
 
@@ -524,7 +524,7 @@ class Thread:
             ):
                 embed.set_image(url=att[0])
                 if att[1]:
-                    embed.add_field(name="Imagen", value=f"[{att[1]}]({att[0]})")
+                    embed.add_field(name="Image", value=f"[{att[1]}]({att[0]})")
                 embedded_image = True
             elif att[1] is not None:
                 if note:
@@ -558,18 +558,18 @@ class Thread:
             embed.color = self.bot.mod_color  # pylint: disable=E0237
             # Anonymous reply sent in thread channel
             if anonymous and isinstance(destination, discord.TextChannel):
-                embed.set_footer(text="Respuesta anónima")
+                embed.set_footer(text="Anonymous Reply")
             # Normal messages
             elif not anonymous:
                 tag = self.bot.config.get("mod_tag", str(message.author.top_role))
                 embed.set_footer(text=tag)  # Normal messages
             else:
-                embed.set_footer(text=self.bot.config.get("anon_tag", "Respuesta"))
+                embed.set_footer(text=self.bot.config.get("anon_tag", "Response"))
         elif note:
             # noinspection PyUnresolvedReferences,PyDunderSlots
             embed.color = discord.Color.blurple()  # pylint: disable=E0237
         else:
-            embed.set_footer(text=f"Iniciador de la conversación.")
+            embed.set_footer(text=f"Recipient")
             # noinspection PyUnresolvedReferences,PyDunderSlots
             embed.color = self.bot.recipient_color  # pylint: disable=E0237
 
@@ -656,7 +656,7 @@ class ThreadManager:
                 thread = None
         except KeyError:
             channel = discord.utils.get(
-                self.bot.modmail_guild.text_channels, topic=f"ID de usuario: {recipient_id}"
+                self.bot.modmail_guild.text_channels, topic=f"User ID: {recipient_id}"
             )
             if channel:
                 thread = Thread(self, recipient, channel)
@@ -775,9 +775,9 @@ class ThreadManager:
         # if not role_names:
         #     embed.add_field(name='Mention', value=user.mention)
         # embed.add_field(name='Registered', value=created + days(created))
-        embed.description += f" fué creado {days(created)}"
+        embed.description += f" se creó {days(created)}"
 
-        footer = "ID de usuario: " + str(user.id)
+        footer = "ID del Usuario:: " + str(user.id)
         embed.set_footer(text=footer)
         embed.set_author(name=str(user), icon_url=user.avatar_url, url=log_url)
         # embed.set_thumbnail(url=avi)
@@ -793,7 +793,7 @@ class ThreadManager:
                 embed.add_field(name="Roles", value=role_names, inline=True)
         else:
             embed.set_footer(
-                text=f"{footer} | Nota: Este miembro " "este miembro no es parte del servidor."
+                text=f"{footer} | Note: this member " "is not part of this server."
             )
 
         if log_count:
