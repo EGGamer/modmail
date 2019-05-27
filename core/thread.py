@@ -804,3 +804,5 @@ class ThreadManager:
             embed.description += "."
 
         return embed
+
+    
